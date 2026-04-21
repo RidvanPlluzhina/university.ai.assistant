@@ -1,10 +1,10 @@
 <Solution>
   <Folder Name="/Solution Items/">
-    <File Path="../README.md" />
     <File Path=".gitignore" />
+    <File Path="README.md" />
     <File Path="ReleaseNotes.md" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="university.ai.assistant/university.ai.assistant.csproj" />
+    <Project Path="src/university.ai.assistant/university.ai.assistant.csproj" />
   </Folder>
 </Solution>
