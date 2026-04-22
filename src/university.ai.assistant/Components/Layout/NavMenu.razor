@@ -9,23 +9,42 @@
     </div>
 </div>
 
+
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="d-flex flex-column h-100">
         <div class="text-center">
-            <img src="images/logo-d.png" width="70" class="img-fluid" />
+            <img src="images/unibzlogo.png" width="70" class="img-fluid" />
         </div>
+        <div class="text-center text-black fw-bold ps-2 pe-2">
+            <h3>AI Assistant</h3>
+            <small class="text-muted">Your smart university companion</small>
+        </div>
+
+        <!-- Divider -->
+        <hr style="border-color:white;">
+
         <div class="nav-item px-4">
             <NavLink class="nav-link" href="/home">
-                <i class="fa-solid fa-house"></i>&nbsp; HOME 
+                <i class="fa-brands fa-rocketchat"></i>&nbsp; New Chat
             </NavLink>
         </div>
         <div class="nav-item px-4">
             <NavLink class="nav-link" href="/analyse">
-                <i class="fa-solid fa-barcode"></i>&nbsp HOME
+                <i class="fa-regular fa-message"></i>&nbsp My Conversations
+            </NavLink>
+        </div>
+        <div class="nav-item px-4">
+            <NavLink class="nav-link" href="/analyse">
+                <i class="fa-solid fa-circle-question"></i>&nbsp FAQ
+            </NavLink>
+        </div>
+        <div class="nav-item px-4">
+            <NavLink class="nav-link" href="/analyse">
+                <i class="fa-solid fa-sliders"></i>&nbsp Settings
             </NavLink>
         </div>
         <div class="mt-auto px-3 mb-3">
-            <button class="btn btn-secondary w-100"
+            <button class="btn btn-outline-light w-100"
                     @onclick="LogOut"
                     @onclick:stopPropagation="true">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
