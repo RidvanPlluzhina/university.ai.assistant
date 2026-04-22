@@ -1,30 +1,78 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject NavigationManager Navigation
+@using Microsoft.Extensions.Localization
+
+<div class="top-row ps-0 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">university.ai.assistant</a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
 </div>
 
-<input type="checkbox" title="Navigation menu" class="navbar-toggler" />
 
-<div class="nav-scrollable" onclick="document.querySelector('.navbar-toggler').click()">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
+<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+    <nav class="d-flex flex-column h-100">
+        <div class="text-center">
+            <img src="images/unibzlogo.png" width="70" class="img-fluid" />
+        </div>
+        <div class="text-center text-black fw-bold ps-2 pe-2">
+            <h3>AI Assistant</h3>
+            <small class="text-muted">Your smart university companion</small>
         </div>
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
+        <!-- Divider -->
+        <hr style="border-color:white;">
+
+        <div class="nav-item px-4">
+            <NavLink class="nav-link" href="/home">
+                <i class="fa-brands fa-rocketchat"></i>&nbsp; New Chat
             </NavLink>
         </div>
-
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
+        <div class="nav-item px-4">
+            <NavLink class="nav-link" href="/analyse">
+                <i class="fa-regular fa-message"></i>&nbsp My Conversations
             </NavLink>
+        </div>
+        <div class="nav-item px-4">
+            <NavLink class="nav-link" href="/analyse">
+                <i class="fa-solid fa-circle-question"></i>&nbsp FAQ
+            </NavLink>
+        </div>
+        <div class="nav-item px-4">
+            <NavLink class="nav-link" href="/analyse">
+                <i class="fa-solid fa-sliders"></i>&nbsp Settings
+            </NavLink>
+        </div>
+        <div class="mt-auto px-3 mb-3">
+            <button class="btn btn-outline-light w-100"
+                    @onclick="LogOut"
+                    @onclick:stopPropagation="true">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                Log Out
+            </button>
+
+            <div class="pt-2 pb-2 text-center">
+                <small class="text-white">
+                    v2026.2.0
+                </small>
+            </div>
         </div>
     </nav>
 </div>
 
+@code {
+    private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void LogOut()
+    {
+        Navigation.NavigateTo("MicrosoftIdentity/Account/SignOut", true);
+    }
+
+}

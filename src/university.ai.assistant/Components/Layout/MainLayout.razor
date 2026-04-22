@@ -1,4 +1,23 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using System.Globalization
+@inject NavigationManager Nav
+@inherits LayoutComponentBase
+@using Microsoft.Extensions.Localization
+@inject NavigationManager Navigation
+
+<style>
+    .user-icon{
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 1px solid black;
+        background-color: rgba(0, 124, 227);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
 
 <div class="page">
     <div class="sidebar">
@@ -6,8 +25,14 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+        <div class="top-row px-4 auth">
+
+                <div class="user-icon">
+                <i class="fa-regular fa-user"></i>
+                </div>
+                <div class="fa-font me-2">
+                    &nbsp <strong>Ridvan Plluzhina</strong>
+                </div>
         </div>
 
         <article class="content px-4">
@@ -21,3 +46,7 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+
+}
