@@ -6,18 +6,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
     <ResourcePreloader />
-    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
-    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["css/bootstrap/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["css/site.css"]" />
     <link rel="stylesheet" href="@Assets["university.ai.assistant.styles.css"]" />
     <ImportMap />
     <link rel="icon" type="image/png" href="favicon.png" />
     <HeadOutlet />
+
+    <!-- Basic favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico?">
+
+    <!-- For iOS devices -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?">
+    <meta name="apple-mobile-web-app-title" content="My Recla" />
+
+    <!-- For Android devices -->
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png">
+
+    <!-- For Windows devices -->
+    <meta name="msapplication-TileImage" content="/favicon/mstile-150x150.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+
+    <!-- SVG favicon for modern browsers -->
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg?">
+
+
+    <!-- For Edge -->
+    <link rel="shortcut icon" href="/favicon/favicon.ico?" />
+
+    <!-- Fallback PNG favicons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png?">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png?">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon/favicon-48x48.png?">
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon/favicon-64x64.png?">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon/favicon-96x96.png?" />
+    <link rel="icon" type="image/png" sizes="150x150" href="/favicon/favicon-150x150.png?" />
+    <link rel="icon" type="image/png" sizes="152x152" href="/favicon/favicon-152x152.png?" />
+    <link rel="icon" type="image/png" sizes="180x180" href="/favicon/favicon-180x180.png?" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png?" />
+    <link rel="icon" type="image/png" sizes="228x228" href="/favicon/favicon-228x228.png?" />
+    <link rel="icon" type="image/png" sizes="270x270" href="/favicon/favicon-270x270.png?" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon/favicon-512x512.png?" />
+    <link href="fontawesome/css/all.css" rel="stylesheet" />
+    <link href="fontawesome/css/brands.css" rel="stylesheet" />
+    <link href="fontawesome/css/fontawesome.css" rel="stylesheet" />
+    <link href="fontawesome/css/regular.css" rel="stylesheet" />
+    <link href="fontawesome/css/solid.css" rel="stylesheet" />
+    <link href="fontawesome/css/svg.css" rel="stylesheet" />
+    <link href="fontawesome/css/svg-with-js.css" rel="stylesheet" />
+    <link href="fontawesome/css/v4-font-face.css" rel="stylesheet" />
+    <link href="fontawesome/css/v4-shims.css" rel="stylesheet" />
+    <link href="fontawesome/css/v5-font-face.css" rel="stylesheet" />
 </head>
 
 <body>
-    <Routes />
+      <CascadingAuthenticationState>
+        <Routes @rendermode="InteractiveServer" />
+    </CascadingAuthenticationState>
+
     <ReconnectModal />
     <script src="@Assets["_framework/blazor.web.js"]"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
