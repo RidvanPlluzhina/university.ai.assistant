@@ -134,13 +134,18 @@
 
     private void NavigateToSignIn()
     {
+        if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+        {
+            errorMessage = "Email and password are required.";
+            return; 
+        }
+
         if (email == "ridvan.plluzhina2020@gmail.com" && password == "ridvan")
         {
             Navigation.NavigateTo("/home");
         }
         else
         {
-            // Show an error message instead of navigating away
             errorMessage = "Invalid email or password.";
         }
     }
