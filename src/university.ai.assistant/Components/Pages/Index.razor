@@ -24,6 +24,12 @@
                                         Your smart university companion
                                     </small>
                                 </div>
+
+                                <!-- Error Message -->
+                                @if (!string.IsNullOrEmpty(errorMessage))
+                                {
+                                    <div class="text-danger fw-bold mb-3">@errorMessage</div>
+                                }
                                
                                 <div class="input-group mb-4" style="background-color: rgba(80, 80, 80, 1); border-radius: 1rem;">
                                     <span class="input-group-text border-0 bg-transparent text-white">
@@ -33,6 +39,7 @@
                                            class="form-control form-control-lg border-0 bg-transparent text-white"
                                            style="color:white;"
                                            @bind="email"
+                                           @bind:event="oninput"
                                            placeholder="Email" />
                                 </div>
 
@@ -44,11 +51,12 @@
                                            class="form-control form-control-lg border-0 bg-transparent text-white"
                                            style="color:white;"
                                            @bind="password"
+                                           @bind:event="oninput"
                                            placeholder="Password" />
                                 </div>
 
 
-                                <button class="btn btn-blue btn-lg shadow signin-button mb-5"
+                                <button type="button" class="btn btn-blue btn-lg shadow signin-button mb-5"
                                         @onclick="NavigateToSignIn">
                                      Login
                                 </button>
@@ -76,12 +84,9 @@
             </div>
         </div>
     </section>
-
-    <button class="btn btn-primary btn-lg shadow signin-button"
-            @onclick="NavigateToSignIn">
-        <i class="fa-solid fa-arrow-right-to-bracket" style="color: white;"></i> Anmelden
-    </button>
 </div>
+
+
 
 <style>
 
@@ -112,24 +117,31 @@
         color: white !important;
         opacity: 1;
     }
+
+    input:focus,
+.form-control:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
 </style>
 
 @code {
 
     private string email = "";
     private string password = "";
+    private string errorMessage = "";
+
 
     private void NavigateToSignIn()
     {
-        if(email == "ridvan.plluzhina@gmail.com" && password == "12345")
+        if (email == "ridvan.plluzhina2020@gmail.com" && password == "ridvan")
         {
             Navigation.NavigateTo("/home");
-
         }
         else
         {
-            Navigation.NavigateTo("/asdw");
-
+            // Show an error message instead of navigating away
+            errorMessage = "Invalid email or password.";
         }
     }
 }
