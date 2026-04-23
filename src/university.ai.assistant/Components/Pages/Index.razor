@@ -1,7 +1,12 @@
 ﻿@page "/"
 @inject NavigationManager Navigation
 @using Microsoft.EntityFrameworkCore
+@using System.Globalization
+@inject NavigationManager Nav
 @layout EmptyLayout
+@using Microsoft.Extensions.Localization
+@using university.ai.assistant.Resources
+@inject IStringLocalizer<SharedResource> localizer
 
 <div class="align-items-center justify-content-center">
 
@@ -13,15 +18,39 @@
                         <div class="card-body p-5 text-center">
 
                             <div>
+                                <!-- Dropdown button, for selecting the language -->
+                                <div class="dropdown align-content-end ms-2">
+                                    <button class="btn btn-light dropdown-toggle focus-ring-0" style="height:50px;" type="button" data-bs-toggle="dropdown">
+                                        <i class="fa-solid fa-globe"></i> @CurrentLanguage
+                                    </button>
+
+                                    <ul class="dropdown-menu" style="min-width:unset;width:120px;">
+                                        <li>
+                                            <button class="dropdown-item ms-0 me-0" @onclick='() => ChangeLanguage("en-US")'>
+                                                <i class="fa-solid fa-globe"></i> @localizer["StrEnglish"]
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="dropdown-item ms-0 me-0" @onclick='() => ChangeLanguage("de-DE")'>
+                                                <i class="fa-solid fa-globe"></i> @localizer["StrGerman"]
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="dropdown-item ms-0 me-0" @onclick='() => ChangeLanguage("it-IT")'>
+                                                <i class="fa-solid fa-globe"></i> @localizer["StrItalian"]
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
 
                                 <div class="mt-0 mb-2">
                                     <img src="/images/unibzeng.png" style="max-width: 150px;" />
                                 </div>
 
                                 <div class="mt-0 mb-5">
-                                    <h3>AI Assistant</h3>
+                                    <h3>@localizer["StrTitle"]</h3>
                                     <small class="text-white">
-                                        Your smart university companion
+                                        @localizer["StrUnderTitle"]
                                     </small>
                                 </div>
 
@@ -40,7 +69,7 @@
                                            style="color:white;"
                                            @bind="email"
                                            @bind:event="oninput"
-                                           placeholder="Email" />
+                                           placeholder="@localizer["StrEmail"]" />
                                 </div>
 
                                 <div class="input-group mb-5" style="background-color: rgba(80, 80, 80, 1); border-radius: 1rem;">
@@ -52,29 +81,29 @@
                                            style="color:white;"
                                            @bind="password"
                                            @bind:event="oninput"
-                                           placeholder="Password" />
+                                           placeholder="@localizer["StrPassword"]" />
                                 </div>
 
 
-                                <button type="button" class="btn btn-blue btn-lg shadow signin-button mb-5"
+                                <button type="button" class="btn btn-blue btn-lg shadow signin-button mb-4"
                                         @onclick="NavigateToSignIn">
-                                     Login
+                                     @localizer["StrLogin"]
                                 </button>
 
-                             @*    <div class="d-flex justify-content-center text-center mt-4 pt-1">
-                                    <a href="#!" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
-                                    <a href="#!" class="text-white"><i class="fab fa-twitter fa-lg mx-4 px-2"></i></a>
-                                    <a href="#!" class="text-white"><i class="fab fa-google fa-lg"></i></a>
-                                </div> *@
+                                <div class="d-flex justify-content-center text-center mb-3">
+                                    <a href="https://www.facebook.com/engineering.unibz.it" class="text-white"><i class="fab fa-facebook-f fa-lg"></i></a>
+                                    <a href="https://www.linkedin.com/school/faculty-of-engineering-free-university-of-bozen-bolzano/posts/?feedView=all" class="text-white"><i class="fab fa-linkedin fa-lg mx-4 px-2"></i></a>
+                                    <a href="https://www.unibz.it/en/faculties/engineering/" class="text-white"><i class="fab fa-google fa-lg"></i></a>
+                                </div>
 
                             </div>
 
                             <div>
                                 <p class="mb-0">
-                                    Don't have an account? 
+                                    @localizer["StrNoAccount"]
                                 </p>
                                 <p>
-                                    <a href="#!" class="text-white-50 fw-bold">Sign Up</a>
+                                    <a href="#!" class="text-white-50 fw-bold">@localizer["StrSignUp"]</a>
                                 </p>
                             </div>
 
@@ -148,5 +177,23 @@
         {
             errorMessage = "Invalid email or password.";
         }
+    }
+
+    public string CurrentCulture => CultureInfo.CurrentUICulture.Name;
+
+    public string CurrentLanguage => CurrentCulture switch
+    {
+        "en-US" => localizer["StrEnglish"],
+        "de-DE" => localizer["StrGerman"],
+        "it-IT" => localizer["StrItalian"],
+        _ => localizer["StrEnglish"]
+    };
+
+    // Method to change the language after the button is pressed
+    public void ChangeLanguage(string culture)
+    {
+        var uri = new Uri(Nav.Uri);
+        Nav.NavigateTo($"/set-culture?culture={culture}&redirectUri={Uri.EscapeDataString(uri.PathAndQuery)}", forceLoad: true
+        );
     }
 }
