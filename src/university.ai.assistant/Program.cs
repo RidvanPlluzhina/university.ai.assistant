@@ -1,6 +1,12 @@
+using Microsoft.EntityFrameworkCore;
 using university.ai.assistant.Components;
+using university.ai.assistant.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Builder for SQL Server connection
+builder.Services.AddDbContextFactory<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

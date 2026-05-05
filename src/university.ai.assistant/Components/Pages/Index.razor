@@ -7,6 +7,8 @@
 @using Microsoft.Extensions.Localization
 @using university.ai.assistant.Resources
 @inject IStringLocalizer<SharedResource> localizer
+@using university.ai.assistant.Data
+@inject IDbContextFactory<AppDbContext> DbFactory
 
 <div class="align-items-center justify-content-center">
 
@@ -161,17 +163,21 @@
     private string errorMessage = "";
 
 
-    private void NavigateToSignIn()
+    private async Task NavigateToSignIn()
     {
         if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
         {
             errorMessage = "Email and password are required.";
-            return; 
+            return;
         }
+        using var db = DbFactory.CreateDbContext();
 
-        if (email == "ridvan.plluzhina2020@gmail.com" && password == "ridvan")
+        var user = await db.User
+        .FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
+
+        if (user != null)
         {
-            Navigation.NavigateTo("/home");
+            Nav.NavigateTo("/home");
         }
         else
         {
