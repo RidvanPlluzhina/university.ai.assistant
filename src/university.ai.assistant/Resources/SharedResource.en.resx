@@ -141,6 +141,12 @@
   <data name="StrSignUp" xml:space="preserve">
     <value>Sign Up</value>
   </data>
+  <data name="StrSuccessText" xml:space="preserve">
+    <value>User created successfully. Please log in with your credentials.</value>
+  </data>
+  <data name="StrSuccessTitle" xml:space="preserve">
+    <value>Success</value>
+  </data>
   <data name="StrTitle" xml:space="preserve">
     <value>AI Assistant</value>
   </data>

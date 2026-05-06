@@ -86,7 +86,7 @@
                                 </div>
 
 
-                                <button type="button" class="btn btn-blue btn-lg shadow signin-button mb-4"
+                                <button type="button" class="btn btn-success btn-lg shadow signin-button mb-4"
                                         @onclick="NavigateToSignIn">
                                      @localizer["StrLogin"]
                                 </button>
@@ -103,9 +103,10 @@
                                 <p class="mb-0">
                                     @localizer["StrNoAccount"]
                                 </p>
-                                <p>
-                                    <a href="#!" class="text-white-50 fw-bold">@localizer["StrSignUp"]</a>
-                                </p>
+                                
+                                <button class="btn btn-blue rounded-3 text-white fw-bold" @onclick="SignUp">
+                                    @localizer["StrSignUp"]
+                                </button>                                
                             </div>
 
                         </div>
@@ -115,6 +116,107 @@
         </div>
     </section>
 </div>
+
+<!-- Show Sign up dialog -->
+@if (showSignUpDialog)
+{
+    <div class="modal fade show d-block"
+         tabindex="-1"
+         role="dialog"
+         style="background-color: rgba(0,0,0,0.8);">
+
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content text-white"
+                 style="background-color: rgba(80, 80, 80, 0.8); border-radius: 1rem;">
+
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> @localizer["StrSignUp"]
+                    </h5>
+
+                    <button type="button"
+                            class="btn-close btn-close-white"
+                            @onclick="CloseDialog">
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Error Message -->
+                    @if (!string.IsNullOrEmpty(errorMessageModal))
+                    {
+                        <div class="text-danger text-center fw-bold mb-3">@errorMessageModal</div>
+                    }
+
+                    <!-- Email -->
+                    <div class="input-group mb-4"
+                         style="background-color: rgba(80, 80, 80, 1); border-radius: 1rem;">
+
+                        <span class="input-group-text border-0 bg-transparent text-white">
+                            <i class="fa-regular fa-envelope"></i>
+                        </span>
+
+                        <input type="email"
+                               class="form-control form-control-lg border-0 bg-transparent text-white"
+                               style="color:white;"
+                               @bind="newEmail"
+                               @bind:event="oninput"
+                               placeholder="@localizer["StrEmail"]" />
+                    </div>
+
+                    <!-- Password -->
+                    <div class="input-group mb-3"
+                         style="background-color: rgba(80, 80, 80, 1); border-radius: 1rem;">
+
+                        <span class="input-group-text border-0 bg-transparent text-white">
+                            <i class="fa-solid fa-lock"></i>
+                        </span>
+
+                        <input type="password"
+                               class="form-control form-control-lg border-0 bg-transparent text-white"
+                               style="color:white;"
+                               @bind="newPassword"
+                               @bind:event="oninput"
+                               placeholder="@localizer["StrPassword"]" />
+                    </div>
+                </div>
+
+                <div class="modal-footer border-0" >
+                    <button type="button" class="btn btn-success text-white rounded-3" @onclick="CreateUser">
+                        @localizer["StrSignUp"]
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@if (showSuccessModal)
+{
+    <div class="modal fade show d-block"
+         tabindex="-1"
+         role="dialog"
+         style="background-color: rgba(0,0,0,0.5);">
+
+        <div class="modal-dialog modal-dialog-centered"
+             role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">
+                        <i class="fa-regular fa-circle-check"></i> @localizer["StrSuccessTitle"]
+                    </h5>
+                </div>
+
+                <div class="modal-body text-center">
+                    <p>@localizer["StrSuccessText"]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 
 
@@ -159,7 +261,12 @@
 
     private string email = "";
     private string password = "";
+    private string newEmail = "";
+    private string newPassword = "";
     private string errorMessage = "";
+    private string errorMessageModal = "";
+    private bool showSignUpDialog = false;
+    private bool showSuccessModal = false;
 
 
     private async Task NavigateToSignIn()
@@ -200,5 +307,62 @@
         var uri = new Uri(Nav.Uri);
         Nav.NavigateTo($"/set-culture?culture={culture}&redirectUri={Uri.EscapeDataString(uri.PathAndQuery)}", forceLoad: true
         );
+    }
+
+    private void SignUp()
+    {
+        showSignUpDialog = true;
+    }
+
+    private void CloseDialog()
+    {
+        showSignUpDialog = false;
+        errorMessageModal = "";
+    }
+
+    // Method used to create a new user
+    private async Task CreateUser()
+    {
+        if (string.IsNullOrWhiteSpace(newEmail) ||
+            string.IsNullOrWhiteSpace(newPassword))
+        {
+            errorMessageModal = "Email and password are required.";
+            return;
+        }
+
+        using var db = DbFactory.CreateDbContext();
+
+        var existingUser = await db.User
+            .FirstOrDefaultAsync(u => u.Email == newEmail);
+
+        if (existingUser != null)
+        {
+            errorMessageModal = "User already exists.";
+            return;
+        }
+
+        var user = new User
+        {
+            Email = newEmail,
+            Password = newPassword
+        };
+
+        db.User.Add(user);
+        await db.SaveChangesAsync();
+
+        showSignUpDialog = false;
+
+        newEmail = "";
+        newPassword = "";
+
+        errorMessageModal = "";
+
+        showSuccessModal = true;
+        StateHasChanged();
+
+        await Task.Delay(2000);
+
+        showSuccessModal = false;
+        StateHasChanged();
     }
 }

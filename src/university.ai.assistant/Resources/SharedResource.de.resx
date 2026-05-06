@@ -141,6 +141,12 @@
   <data name="StrSignUp" xml:space="preserve">
     <value>Registrieren</value>
   </data>
+  <data name="StrSuccessText" xml:space="preserve">
+    <value>User erfolgreich erstellt. Bitte mit Ihren Zugangsdaten anmelden.</value>
+  </data>
+  <data name="StrSuccessTitle" xml:space="preserve">
+    <value>Erfolg</value>
+  </data>
   <data name="StrTitle" xml:space="preserve">
     <value>KI-Assistent</value>
   </data>
